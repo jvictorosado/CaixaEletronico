@@ -27,9 +27,10 @@ namespace CaixaEletronico.Aplicacao
 
                 var numeroContaRecebido = "";
                 var senhaContaRecebida = "";
+                Conta conta;
                 switch(decisao){
                     case 1:
-                        var conta = AbrirConta();
+                        conta = AbrirConta();
                         listaContas.Add(conta);
                         Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
                         Console.ReadLine();
@@ -37,33 +38,22 @@ namespace CaixaEletronico.Aplicacao
                     case 2:
                         Console.WriteLine("Insira o numero da conta a ser excluida:");
                         var excluirConta = Console.ReadLine();
-                        for (int i=0; i<listaContas.Capacity; i++)
-                        {
-                            if (listaContas[i].NumeroConta == excluirConta){
-                                Console.WriteLine($"A conta {listaContas[i].NumeroConta} foi excluida com sucesso!");
-                                listaContas.Remove(listaContas[i]);
-                                Console.ReadLine();
-                                break;
-                            }
-                        }
+                        conta = ProcuraConta(listaContas , excluirConta);
+                        Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
+                        listaContas.Remove(conta);
+                        Console.ReadLine();
                         break;
                     case 3:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
-                        {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
-                            {
-                                Console.WriteLine("Insira o nome a ser colocado no cartão:");
-                                var nomeCartao = Console.ReadLine();
-                                Console.WriteLine("digite uma senha para o cartão:");
-                                var senhaCartao = Console.ReadLine();
-                                listaContas[i].Cartao = new Cartao(nomeCartao, senhaCartao);
-                                Console.WriteLine($"o cartão de numero {listaContas[i].Cartao.NumeroCartao} foi gerado com sucesso!");
-                                Console.ReadLine();
-                                break;
-                            }
-                        }
+                        conta = ProcuraConta(listaContas , numeroContaRecebido);
+                        Console.WriteLine("Insira o nome a ser colocado no cartão:");
+                        var nomeCartao = Console.ReadLine();
+                        Console.WriteLine("digite uma senha para o cartão:");
+                        var senhaCartao = Console.ReadLine();
+                        conta.Cartao = new Cartao(nomeCartao, senhaCartao);
+                        Console.WriteLine($"o cartão de numero {conta.Cartao.NumeroCartao} foi gerado com sucesso!");
+                        Console.ReadLine();
                         break;
                     case 4:
                         Console.WriteLine("Insira o numero da conta:");
@@ -264,6 +254,17 @@ namespace CaixaEletronico.Aplicacao
             Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
             var sexo = Convert.ToInt32(Console.ReadLine());
             return new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
+        }
+
+        public  static Conta ProcuraConta(List<Conta> listaContas , string conta ){
+            for (int i = 0; i < listaContas.Capacity; i++)
+            {
+                if (listaContas[i].NumeroConta == conta)
+                {
+                    return listaContas[i];
+                }
+            }
+            return null;
         }
         
     }
