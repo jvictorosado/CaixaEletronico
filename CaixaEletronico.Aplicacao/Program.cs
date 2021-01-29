@@ -1,7 +1,6 @@
 ﻿using CaixaEletronico.Aplicacao.Dominio;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CaixaEletronico.Aplicacao
 {
@@ -33,23 +32,23 @@ namespace CaixaEletronico.Aplicacao
                 switch (decisao)
                 {
                     case 1:
-                            Console.WriteLine("Insira seu nome:");
-                            var nome = Console.ReadLine();
-                            Console.WriteLine("Insira o seu CPF: ");
-                            var cpf = Console.ReadLine();
-                            Console.WriteLine("Insira a sua data de nascimento(dd/mm/yyyy):");
-                            var dataNascimento = Console.ReadLine();
-                            var dataNascimentoSplit = dataNascimento.Split('/');
-                            var ano = Convert.ToInt32(dataNascimentoSplit[2]);
-                            var mes = Convert.ToInt32(dataNascimentoSplit[1]);
-                            var dia = Convert.ToInt32(dataNascimentoSplit[0]);
-                            Console.WriteLine("Insira o seu Endereço: ");
-                            var endereco = Console.ReadLine();
-                            Console.WriteLine("Insira a senha desejada: ");
-                            var senha = Console.ReadLine();
-                            Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
-                            var sexo = Convert.ToInt32(Console.ReadLine());
-                            conta =  new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
+                        Console.WriteLine("Insira seu nome:");
+                        var nome = Console.ReadLine();
+                        Console.WriteLine("Insira o seu CPF: ");
+                        var cpf = Console.ReadLine();
+                        Console.WriteLine("Insira a sua data de nascimento(dd/mm/yyyy):");
+                        var dataNascimento = Console.ReadLine();
+                        var dataNascimentoSplit = dataNascimento.Split('/');
+                        var ano = Convert.ToInt32(dataNascimentoSplit[2]);
+                        var mes = Convert.ToInt32(dataNascimentoSplit[1]);
+                        var dia = Convert.ToInt32(dataNascimentoSplit[0]);
+                        Console.WriteLine("Insira o seu Endereço: ");
+                        var endereco = Console.ReadLine();
+                        Console.WriteLine("Insira a senha desejada: ");
+                        var senha = Console.ReadLine();
+                        Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
+                        var sexo = Convert.ToInt32(Console.ReadLine());
+                        conta = new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
                         listaContas.Add(conta);
                         Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
                         Console.ReadLine();
@@ -128,9 +127,9 @@ namespace CaixaEletronico.Aplicacao
                         numeroContaRecebido = Console.ReadLine();
                         conta = ProcuraConta(listaContas, numeroContaRecebido);
                         Console.WriteLine("Digite o valor a depositado:");
-                                conta.Saldo += Convert.ToInt64(Console.ReadLine());
-                                Console.WriteLine("Deposito realizado com sucesso!");
-                                Console.ReadLine();
+                        conta.Saldo += Convert.ToInt64(Console.ReadLine());
+                        Console.WriteLine("Deposito realizado com sucesso!");
+                        Console.ReadLine();
                         break;
 
 
@@ -139,63 +138,63 @@ namespace CaixaEletronico.Aplicacao
                         numeroContaRecebido = Console.ReadLine();
                         conta = ProcuraConta(listaContas, numeroContaRecebido);
                         Console.WriteLine("Insira a senha conta:");
-                                senhaContaRecebida = Console.ReadLine();
-                                if (conta.Senha == senhaContaRecebida)
-                                {
-                                    Console.WriteLine("Digite o valor a ser transferido:");
-                                    var transferir = Convert.ToDouble(Console.ReadLine());
-                                    if ((double)conta.Saldo >= transferir)
-                                    {
-                                        Console.WriteLine("Insira o numero da conta a ser transferida:");
-                                        var numeroConta2Recebido = Console.ReadLine();
-                                        var conta2 = ProcuraConta(listaContas, numeroConta2Recebido);
-                                        conta.Saldo -= transferir;
-                                        conta2.Saldo += transferir;
-                                        Console.WriteLine("Transferencia realizado com sucesso!");
-                                        Console.ReadLine();
-                                
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Saldo Insuficiente");
-                                        Console.ReadLine();
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Senha Incorreta");
-                                    Console.ReadLine();
+                        senhaContaRecebida = Console.ReadLine();
+                        if (conta.Senha == senhaContaRecebida)
+                        {
+                            Console.WriteLine("Digite o valor a ser transferido:");
+                            var transferir = Convert.ToDouble(Console.ReadLine());
+                            if ((double)conta.Saldo >= transferir)
+                            {
+                                Console.WriteLine("Insira o numero da conta a ser transferida:");
+                                var numeroConta2Recebido = Console.ReadLine();
+                                var conta2 = ProcuraConta(listaContas, numeroConta2Recebido);
+                                conta.Saldo -= transferir;
+                                conta2.Saldo += transferir;
+                                Console.WriteLine("Transferencia realizado com sucesso!");
+                                Console.ReadLine();
 
-                                }
-                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Saldo Insuficiente");
+                                Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Senha Incorreta");
+                            Console.ReadLine();
+
+                        }
+                        break;
 
                     case 8:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
                         conta = ProcuraConta(listaContas, numeroContaRecebido);
                         Console.WriteLine("Insira a senha conta:");
-                                senhaContaRecebida = Console.ReadLine();
-                                if (conta.Senha == senhaContaRecebida)
-                                {
-                                    Console.WriteLine("Digite o 10 ultimos numeros do boleto a ser pago:");
-                                    var boleto = (Convert.ToDouble(Console.ReadLine()) * 0.01);
-                                    if ((double)conta.Saldo >= boleto)
-                                    {
-                                        conta.Saldo -= boleto;
-                                        Console.WriteLine("boleto pago com sucesso!");
-                                        Console.ReadLine();
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Saldo Insuficiente");
-                                        Console.ReadLine();
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Senha Incorreta");
-                                    Console.ReadLine();
-                                }
+                        senhaContaRecebida = Console.ReadLine();
+                        if (conta.Senha == senhaContaRecebida)
+                        {
+                            Console.WriteLine("Digite o 10 ultimos numeros do boleto a ser pago:");
+                            var boleto = (Convert.ToDouble(Console.ReadLine()) * 0.01);
+                            if ((double)conta.Saldo >= boleto)
+                            {
+                                conta.Saldo -= boleto;
+                                Console.WriteLine("boleto pago com sucesso!");
+                                Console.ReadLine();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Saldo Insuficiente");
+                                Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Senha Incorreta");
+                            Console.ReadLine();
+                        }
                         break;
 
                 }
