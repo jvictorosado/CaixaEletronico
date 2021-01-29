@@ -9,30 +9,30 @@ namespace CaixaEletronico.Aplicacao
         public static void Main()
         {
 
-                var decisao = 9;
+            var decisao = 9;
             var listaContas = new List<Conta>();
             do
             {
                 try
                 {
                     Console.Clear();
-                Console.WriteLine("Menu:");
-                Console.WriteLine("1 - Abrir Conta");
-                Console.WriteLine("2 - Encerrar Conta");
-                Console.WriteLine("3 - Gerar Cartão");
-                Console.WriteLine("4 - Ver Extrato");
-                Console.WriteLine("5 - Sacar");
-                Console.WriteLine("6 - Depositar");
-                Console.WriteLine("7 - Transferir");
-                Console.WriteLine("8 - Pagamentos");
-                Console.WriteLine("0 - Encerrar");
-                Console.Write("Digite uma opção:");
+                    Console.WriteLine("Menu:");
+                    Console.WriteLine("1 - Abrir Conta");
+                    Console.WriteLine("2 - Encerrar Conta");
+                    Console.WriteLine("3 - Gerar Cartão");
+                    Console.WriteLine("4 - Ver Extrato");
+                    Console.WriteLine("5 - Sacar");
+                    Console.WriteLine("6 - Depositar");
+                    Console.WriteLine("7 - Transferir");
+                    Console.WriteLine("8 - Pagamentos");
+                    Console.WriteLine("0 - Encerrar");
+                    Console.Write("Digite uma opção:");
 
                     decisao = Convert.ToInt32(Console.ReadLine());
 
-                var numeroContaRecebido = "";
-                var senhaContaRecebida = "";
-                Conta conta;
+                    var numeroContaRecebido = "";
+                    var senhaContaRecebida = "";
+                    Conta conta;
 
                     switch (decisao)
                     {
