@@ -8,11 +8,14 @@ namespace CaixaEletronico.Aplicacao
     {
         public static void Main()
         {
-            var decisao = 9;
+
+                var decisao = 9;
             var listaContas = new List<Conta>();
             do
             {
-                Console.Clear();
+                try
+                {
+                    Console.Clear();
                 Console.WriteLine("Menu:");
                 Console.WriteLine("1 - Abrir Conta");
                 Console.WriteLine("2 - Encerrar Conta");
@@ -24,17 +27,13 @@ namespace CaixaEletronico.Aplicacao
                 Console.WriteLine("8 - Pagamentos");
                 Console.WriteLine("0 - Encerrar");
                 Console.Write("Digite uma opção:");
-                try
-                {
+
                     decisao = Convert.ToInt32(Console.ReadLine());
-                }
-                catch { }
 
                 var numeroContaRecebido = "";
                 var senhaContaRecebida = "";
                 Conta conta;
-                try
-                {
+
                     switch (decisao)
                     {
                         case 1:
