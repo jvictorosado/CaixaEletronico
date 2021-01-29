@@ -51,15 +51,20 @@ namespace CaixaEletronico.Aplicacao
                         conta = new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
                         listaContas.Add(conta);
                         Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
-                        Console.ReadLine();
                         break;
                     case 2:
                         Console.WriteLine("Insira o numero da conta a ser excluida:");
                         var excluirConta = Console.ReadLine();
                         conta = ProcuraConta(listaContas, excluirConta);
-                        Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
-                        listaContas.Remove(conta);
-                        Console.ReadLine();
+                        if (conta != null)
+                        {
+                            Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
+                            listaContas.Remove(conta);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Conta Inválida");
+                        }
                         break;
                     case 3:
                         Console.WriteLine("Insira o numero da conta:");
@@ -71,7 +76,6 @@ namespace CaixaEletronico.Aplicacao
                         var senhaCartao = Console.ReadLine();
                         conta.Cartao = new Cartao(nomeCartao, senhaCartao);
                         Console.WriteLine($"o cartão de numero {conta.Cartao.NumeroCartao} foi gerado com sucesso!");
-                        Console.ReadLine();
                         break;
 
                     case 4:
@@ -83,12 +87,10 @@ namespace CaixaEletronico.Aplicacao
                         if (conta.Senha == senhaContaRecebida)
                         {
                             Console.WriteLine($"Saldo atual: R${conta.Saldo}");
-                            Console.ReadLine();
                         }
                         else
                         {
                             Console.WriteLine("Senha Incorreta");
-                            Console.ReadLine();
                         }
                         break;
 
@@ -107,18 +109,15 @@ namespace CaixaEletronico.Aplicacao
                             {
                                 conta.Saldo -= saque;
                                 Console.WriteLine("Saque realizado com sucesso!");
-                                Console.ReadLine();
                             }
                             else
                             {
                                 Console.WriteLine("Saldo Insuficiente");
-                                Console.ReadLine();
                             }
                         }
                         else
                         {
                             Console.WriteLine("Senha Incorreta");
-                            Console.ReadLine();
                         }
                         break;
 
@@ -129,7 +128,6 @@ namespace CaixaEletronico.Aplicacao
                         Console.WriteLine("Digite o valor a depositado:");
                         conta.Saldo += Convert.ToInt64(Console.ReadLine());
                         Console.WriteLine("Deposito realizado com sucesso!");
-                        Console.ReadLine();
                         break;
 
 
@@ -151,19 +149,16 @@ namespace CaixaEletronico.Aplicacao
                                 conta.Saldo -= transferir;
                                 conta2.Saldo += transferir;
                                 Console.WriteLine("Transferencia realizado com sucesso!");
-                                Console.ReadLine();
 
                             }
                             else
                             {
                                 Console.WriteLine("Saldo Insuficiente");
-                                Console.ReadLine();
                             }
                         }
                         else
                         {
                             Console.WriteLine("Senha Incorreta");
-                            Console.ReadLine();
 
                         }
                         break;
@@ -182,22 +177,20 @@ namespace CaixaEletronico.Aplicacao
                             {
                                 conta.Saldo -= boleto;
                                 Console.WriteLine("boleto pago com sucesso!");
-                                Console.ReadLine();
                             }
                             else
                             {
                                 Console.WriteLine("Saldo Insuficiente");
-                                Console.ReadLine();
                             }
                         }
                         else
                         {
                             Console.WriteLine("Senha Incorreta");
-                            Console.ReadLine();
                         }
                         break;
 
                 }
+                Console.ReadLine();
             } while (decisao != 0);
 
         }
