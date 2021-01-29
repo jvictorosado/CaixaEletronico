@@ -32,7 +32,23 @@ namespace CaixaEletronico.Aplicacao
                 switch (decisao)
                 {
                     case 1:
-                        conta = AbrirConta();
+                            Console.WriteLine("Insira seu nome:");
+                            var nome = Console.ReadLine();
+                            Console.WriteLine("Insira o seu CPF: ");
+                            var cpf = Console.ReadLine();
+                            Console.WriteLine("Insira a sua data de nascimento(dd/mm/yyyy):");
+                            var dataNascimento = Console.ReadLine();
+                            var dataNascimentoSplit = dataNascimento.Split('/');
+                            var ano = Convert.ToInt32(dataNascimentoSplit[2]);
+                            var mes = Convert.ToInt32(dataNascimentoSplit[1]);
+                            var dia = Convert.ToInt32(dataNascimentoSplit[0]);
+                            Console.WriteLine("Insira o seu Endereço: ");
+                            var endereco = Console.ReadLine();
+                            Console.WriteLine("Insira a senha desejada: ");
+                            var senha = Console.ReadLine();
+                            Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
+                            var sexo = Convert.ToInt32(Console.ReadLine());
+                            conta =  new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
                         listaContas.Add(conta);
                         Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
                         Console.ReadLine();
@@ -186,27 +202,6 @@ namespace CaixaEletronico.Aplicacao
 
         }
 
-        public static Conta AbrirConta()
-        {
-
-            Console.WriteLine("Insira seu nome:");
-            var nome = Console.ReadLine();
-            Console.WriteLine("Insira o seu CPF: ");
-            var cpf = Console.ReadLine();
-            Console.WriteLine("Insira a sua data de nascimento(dd/mm/yyyy):");
-            var dataNascimento = Console.ReadLine();
-            var dataNascimentoSplit = dataNascimento.Split('/');
-            var ano = Convert.ToInt32(dataNascimentoSplit[2]);
-            var mes = Convert.ToInt32(dataNascimentoSplit[1]);
-            var dia = Convert.ToInt32(dataNascimentoSplit[0]);
-            Console.WriteLine("Insira o seu Endereço: ");
-            var endereco = Console.ReadLine();
-            Console.WriteLine("Insira a senha desejada: ");
-            var senha = Console.ReadLine();
-            Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
-            var sexo = Convert.ToInt32(Console.ReadLine());
-            return new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
-        }
 
         public static Conta ProcuraConta(List<Conta> listaContas, string conta)
         {
