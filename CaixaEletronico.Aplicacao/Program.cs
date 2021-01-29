@@ -172,7 +172,7 @@ namespace CaixaEletronico.Aplicacao
                             senhaContaRecebida = Console.ReadLine();
                             if (conta.Senha == senhaContaRecebida)
                             {
-                                Console.WriteLine("Digite o 10 ultimos numeros do boleto a ser pago:");
+                                Console.WriteLine("Digite os 10 ultimos numeros do boleto a ser pago:");
                                 var boleto = (Convert.ToDouble(Console.ReadLine()) * 0.01);
                                 if ((double)conta.Saldo >= boleto)
                                 {
