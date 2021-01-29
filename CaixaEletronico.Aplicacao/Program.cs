@@ -52,6 +52,7 @@ namespace CaixaEletronico.Aplicacao
                             var sexo = Convert.ToInt32(Console.ReadLine());
                             conta = new Conta(senha, nome, cpf, new DateTime(dataNascimento[0], dataNascimento[1], dataNascimento[2]), endereco, (Sexo)sexo);
                             listaContas.Add(conta);
+                            Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
                             break;
                         case 2:
                             Console.WriteLine("Insira o numero da conta a ser excluida:");
