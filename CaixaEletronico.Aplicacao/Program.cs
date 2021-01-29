@@ -7,8 +7,9 @@ namespace CaixaEletronico.Aplicacao
 {
     public class Program
     {
-        public static void Main() {
-            var decisao=0;
+        public static void Main()
+        {
+            var decisao = 0;
             var listaContas = new List<Conta>();
             do
             {
@@ -28,7 +29,8 @@ namespace CaixaEletronico.Aplicacao
                 var numeroContaRecebido = "";
                 var senhaContaRecebida = "";
                 Conta conta;
-                switch(decisao){
+                switch (decisao)
+                {
                     case 1:
                         conta = AbrirConta();
                         listaContas.Add(conta);
@@ -38,7 +40,7 @@ namespace CaixaEletronico.Aplicacao
                     case 2:
                         Console.WriteLine("Insira o numero da conta a ser excluida:");
                         var excluirConta = Console.ReadLine();
-                        conta = ProcuraConta(listaContas , excluirConta);
+                        conta = ProcuraConta(listaContas, excluirConta);
                         Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
                         listaContas.Remove(conta);
                         Console.ReadLine();
@@ -46,7 +48,7 @@ namespace CaixaEletronico.Aplicacao
                     case 3:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        conta = ProcuraConta(listaContas , numeroContaRecebido);
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
                         Console.WriteLine("Insira o nome a ser colocado no cartão:");
                         var nomeCartao = Console.ReadLine();
                         Console.WriteLine("digite uma senha para o cartão:");
@@ -55,178 +57,128 @@ namespace CaixaEletronico.Aplicacao
                         Console.WriteLine($"o cartão de numero {conta.Cartao.NumeroCartao} foi gerado com sucesso!");
                         Console.ReadLine();
                         break;
+
                     case 4:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
+                        Console.WriteLine("Insira a senha conta:");
+                        senhaContaRecebida = Console.ReadLine();
+                        if (conta.Senha == senhaContaRecebida)
                         {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
-                            {
-                                Console.WriteLine("Insira a senha conta:");
-                                senhaContaRecebida = Console.ReadLine();
-                                if (listaContas[i].Senha == senhaContaRecebida)
-                                {
-                                    Console.WriteLine($"Saldo atual: R${listaContas[i].Saldo}");
-                                    Console.ReadLine();
-                                    break;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Senha Incorreta");
-                                    Console.ReadLine();
-                                    break;
-
-                                }
-
-                            }
+                            Console.WriteLine($"Saldo atual: R${conta.Saldo}");
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Senha Incorreta");
+                            Console.ReadLine();
                         }
                         break;
+
 
                     case 5:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
+                        Console.WriteLine("Insira a senha conta:");
+                        senhaContaRecebida = Console.ReadLine();
+                        if (conta.Senha == senhaContaRecebida)
                         {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
+                            Console.WriteLine("Digite o valor a ser sacado:");
+                            var saque = Convert.ToDouble(Console.ReadLine());
+                            if ((double)conta.Saldo >= saque)
                             {
-                                Console.WriteLine("Insira a senha conta:");
-                                senhaContaRecebida = Console.ReadLine();
-                                if (listaContas[i].Senha == senhaContaRecebida)
-                                {
-                                    Console.WriteLine("Digite o valor a ser sacado:");
-                                    var saque = Convert.ToDouble(Console.ReadLine());
-                                    if((double)listaContas[i].Saldo >= saque)
-                                    {
-                                        listaContas[i].Saldo -= saque;
-                                        Console.WriteLine("Saque realizado com sucesso!");
-                                        Console.ReadLine();
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Saldo Insuficiente");
-                                        Console.ReadLine();
-                                        break;
-
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Senha Incorreta");
-                                    Console.ReadLine();
-                                    break;
-
-                                }
-
+                                conta.Saldo -= saque;
+                                Console.WriteLine("Saque realizado com sucesso!");
+                                Console.ReadLine();
                             }
+                            else
+                            {
+                                Console.WriteLine("Saldo Insuficiente");
+                                Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Senha Incorreta");
+                            Console.ReadLine();
                         }
                         break;
 
                     case 6:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
-                        {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
-                            {
-                                Console.WriteLine("Digite o valor a depositado:");
-                                        listaContas[i].Saldo += Convert.ToInt64(Console.ReadLine());
-                                        Console.WriteLine("Deposito realizado com sucesso!");
-                                        Console.ReadLine();
-                                        break;
-                            }
-                        }
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
+                        Console.WriteLine("Digite o valor a depositado:");
+                                conta.Saldo += Convert.ToInt64(Console.ReadLine());
+                                Console.WriteLine("Deposito realizado com sucesso!");
+                                Console.ReadLine();
                         break;
-                        
+
 
                     case 7:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
-                        {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
-                            {
-                                Console.WriteLine("Insira a senha conta:");
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
+                        Console.WriteLine("Insira a senha conta:");
                                 senhaContaRecebida = Console.ReadLine();
-                                if (listaContas[i].Senha == senhaContaRecebida)
+                                if (conta.Senha == senhaContaRecebida)
                                 {
                                     Console.WriteLine("Digite o valor a ser transferido:");
                                     var transferir = Convert.ToDouble(Console.ReadLine());
-                                    if ((double)listaContas[i].Saldo >= transferir)
+                                    if ((double)conta.Saldo >= transferir)
                                     {
                                         Console.WriteLine("Insira o numero da conta a ser transferida:");
                                         var numeroConta2Recebido = Console.ReadLine();
-                                        for (int j = 0; j < listaContas.Capacity; j++)
-                                        {
-                                            if (listaContas[j].NumeroConta == numeroConta2Recebido)
-                                            {
-                                                listaContas[i].Saldo -= transferir;
-                                                listaContas[j].Saldo += transferir;
-                                                Console.WriteLine("Transferencia realizado com sucesso!");
-                                                Console.ReadLine();
-                                                break;
-                                            }
-                                        }
+                                        var conta2 = ProcuraConta(listaContas, numeroConta2Recebido);
+                                        conta.Saldo -= transferir;
+                                        conta2.Saldo += transferir;
+                                        Console.WriteLine("Transferencia realizado com sucesso!");
+                                        Console.ReadLine();
+                                
                                     }
                                     else
                                     {
                                         Console.WriteLine("Saldo Insuficiente");
                                         Console.ReadLine();
-                                        break;
-
                                     }
                                 }
                                 else
                                 {
                                     Console.WriteLine("Senha Incorreta");
                                     Console.ReadLine();
-                                    break;
 
                                 }
                                 break;
-                            }
-                        }
-                        break;
 
                     case 8:
                         Console.WriteLine("Insira o numero da conta:");
                         numeroContaRecebido = Console.ReadLine();
-                        for (int i = 0; i < listaContas.Capacity; i++)
-                        {
-                            if (listaContas[i].NumeroConta == numeroContaRecebido)
-                            {
-                                Console.WriteLine("Insira a senha conta:");
+                        conta = ProcuraConta(listaContas, numeroContaRecebido);
+                        Console.WriteLine("Insira a senha conta:");
                                 senhaContaRecebida = Console.ReadLine();
-                                if (listaContas[i].Senha == senhaContaRecebida)
+                                if (conta.Senha == senhaContaRecebida)
                                 {
                                     Console.WriteLine("Digite o 10 ultimos numeros do boleto a ser pago:");
                                     var boleto = (Convert.ToDouble(Console.ReadLine()) * 0.01);
-                                    if ((double)listaContas[i].Saldo >= boleto)
+                                    if ((double)conta.Saldo >= boleto)
                                     {
-                                        listaContas[i].Saldo -= boleto;
+                                        conta.Saldo -= boleto;
                                         Console.WriteLine("boleto pago com sucesso!");
                                         Console.ReadLine();
-                                        break;
-
                                     }
                                     else
                                     {
                                         Console.WriteLine("Saldo Insuficiente");
                                         Console.ReadLine();
-                                        break;
-
                                     }
                                 }
                                 else
                                 {
                                     Console.WriteLine("Senha Incorreta");
                                     Console.ReadLine();
-                                    break;
-
                                 }
-
-                            }
-                        }
                         break;
 
                 }
@@ -256,7 +208,8 @@ namespace CaixaEletronico.Aplicacao
             return new Conta(senha, nome, cpf, new DateTime(ano, mes, dia), endereco, (Sexo)sexo);
         }
 
-        public  static Conta ProcuraConta(List<Conta> listaContas , string conta ){
+        public static Conta ProcuraConta(List<Conta> listaContas, string conta)
+        {
             for (int i = 0; i < listaContas.Capacity; i++)
             {
                 if (listaContas[i].NumeroConta == conta)
@@ -266,6 +219,6 @@ namespace CaixaEletronico.Aplicacao
             }
             return null;
         }
-        
+
     }
 }
