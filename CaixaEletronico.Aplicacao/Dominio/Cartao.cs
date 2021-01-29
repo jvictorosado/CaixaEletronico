@@ -11,6 +11,7 @@ namespace CaixaEletronico.Aplicacao.Dominio
         public DateTime Validade {get; set; }
         public string Cvc {get; set; }
         public string Senha {get; set; }
+        public Double Limite {get; set; }
 
         public Cartao(string nomeCliente, string senha)
         {
@@ -28,6 +29,8 @@ namespace CaixaEletronico.Aplicacao.Dominio
             Cvc = random.Next(111, 999).ToString();
 
             Validade = DateTime.Today.AddYears(4);
+
+            Limite = 0;
 
 
 

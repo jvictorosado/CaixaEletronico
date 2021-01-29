@@ -24,6 +24,7 @@ namespace CaixaEletronico.Aplicacao
                 Console.WriteLine("7 - Transferir");
                 Console.WriteLine("8 - Pagamentos");
                 Console.WriteLine("0 - Encerrar");
+                Console.Write("Digite uma opção:");
                 decisao = Convert.ToInt32(Console.ReadLine());
 
                 var numeroContaRecebido = "";
@@ -205,7 +206,7 @@ namespace CaixaEletronico.Aplicacao
 
         public static Conta ProcuraConta(List<Conta> listaContas, string conta)
         {
-            for (int i = 0; i < listaContas.Capacity; i++)
+            for (int i = 0; i < listaContas.Count; i++)
             {
                 if (listaContas[i].NumeroConta == conta)
                 {
