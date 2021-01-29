@@ -190,6 +190,11 @@ namespace CaixaEletronico.Aplicacao
                             }
                             break;
 
+                        case 0:
+                            decisao = 0;
+                            Console.WriteLine("Sistema Encerrado");
+                            break;
+
                         default:
                             Console.WriteLine("Opção Inválida");
                             break;
