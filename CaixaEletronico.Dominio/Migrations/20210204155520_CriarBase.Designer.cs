@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaixaEletronico.Dominio.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210204040639_CriarBase")]
+    [Migration("20210204155520_CriarBase")]
     partial class CriarBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
