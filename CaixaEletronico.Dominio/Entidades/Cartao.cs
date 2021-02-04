@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CaixaEletronico.Aplicacao.Dominio
+namespace CaixaEletronico.Dominio.Entidades
 {
     public class Cartao
     {
+        public int CartaoId { get; set; }
+        [Required]
         public string NomeCliente {get; set; }
+        [Required]
         public string NumeroCartao {get; set; }
         public DateTime Validade {get; set; }
+        [Required]
         public string Cvc {get; set; }
+        [Required]
         public string Senha {get; set; }
-        public Double Limite {get; set; }
+        public double Limite {get; set; }
 
         public Cartao(string nomeCliente, string senha)
         {

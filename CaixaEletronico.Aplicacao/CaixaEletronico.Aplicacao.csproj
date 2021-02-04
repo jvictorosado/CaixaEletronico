@@ -6,8 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aplicacao\" />
-    <Folder Include="Infraestrutura\" />
+    <Compile Remove="Aplicacao\**" />
+    <Compile Remove="Infraestrutura\**" />
+    <EmbeddedResource Remove="Aplicacao\**" />
+    <EmbeddedResource Remove="Infraestrutura\**" />
+    <None Remove="Aplicacao\**" />
+    <None Remove="Infraestrutura\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CaixaEletronico.Dominio\CaixaEletronico.Dominio.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using CaixaEletronico.Aplicacao.Dominio;
+﻿using CaixaEletronico.Dominio.Entidades;
 using System;
 using System.Collections.Generic;
 
@@ -47,9 +47,7 @@ namespace CaixaEletronico.Aplicacao
                             var endereco = Console.ReadLine();
                             Console.WriteLine("Insira a senha desejada: ");
                             var senha = Console.ReadLine();
-                            Console.WriteLine("sexo: (1 - Masculino, 2 - Feminino, 3 - Outros)");
-                            var sexo = Convert.ToInt32(Console.ReadLine());
-                            conta = new Conta(senha, nome, cpf, new DateTime(dataNascimento[0], dataNascimento[1], dataNascimento[2]), endereco, (Sexo)sexo);
+                            conta = new Conta(senha, nome, cpf, new DateTime(dataNascimento[0], dataNascimento[1], dataNascimento[2]), endereco);
                             listaContas.Add(conta);
                             Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
                             break;
