@@ -13,6 +13,7 @@ namespace CaixaEletronico.Aplicacao
         {
             var contexto = new Contexto();
             var decisao = 9;
+            var cartao = "";
             do
             {
                 try
@@ -21,12 +22,11 @@ namespace CaixaEletronico.Aplicacao
                     Console.WriteLine("Menu:");
                     Console.WriteLine("1 - Abrir Conta");
                     Console.WriteLine("2 - Encerrar Conta");
-                    Console.WriteLine("3 - Gerar Cartão");
-                    Console.WriteLine("4 - Ver Extrato");
-                    Console.WriteLine("5 - Sacar");
-                    Console.WriteLine("6 - Depositar");
-                    Console.WriteLine("7 - Transferir");
-                    Console.WriteLine("8 - Pagamentos");
+                    Console.WriteLine("3 - Ver Extrato");
+                    Console.WriteLine("4 - Sacar");
+                    Console.WriteLine("5 - Depositar");
+                    Console.WriteLine("6 - Transferir");
+                    Console.WriteLine("7 - Pagamentos");
                     Console.WriteLine("0 - Encerrar");
                     Console.Write("Digite uma opção:");
 
@@ -49,23 +49,10 @@ namespace CaixaEletronico.Aplicacao
                             var endereco = Console.ReadLine();
                             Console.WriteLine("Insira a senha desejada: ");
                             var senha = Console.ReadLine();
-                            conta = new Conta(senha, nome, cpf, new DateTime(dataNascimento[0], dataNascimento[1], dataNascimento[2]), endereco);
+                            conta = new Conta(senha, nome, cpf, dataNascimento, endereco);
                             contexto.Contas.Add(conta);
                             contexto.SaveChanges();
                             Console.WriteLine($"Conta {conta.NumeroConta} Criada com Sucesso!");
-                            break;
-                        case 2:
-                            Console.WriteLine("Insira o numero da conta a ser excluida:");
-                            var excluirConta = Console.ReadLine();
-                            conta = ProcuraConta(contexto, excluirConta);
-                            contexto.Contas.Remove(conta);
-                            contexto.SaveChanges();
-                            Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
-                            break;
-                        case 3:
-                            Console.WriteLine("Insira o numero da conta:");
-                            numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
                             Console.WriteLine("Insira o nome a ser colocado no cartão:");
                             var nomeCartao = Console.ReadLine();
                             Console.WriteLine("digite uma senha para o cartão:");
@@ -75,16 +62,49 @@ namespace CaixaEletronico.Aplicacao
                             contexto.SaveChanges();
                             Console.WriteLine($"o cartão de numero {conta.Cartao.NumeroCartao} foi gerado com sucesso!");
                             break;
+                        case 2:
+                            Console.WriteLine("Insira o numero do cartao:");
+                            cartao = Console.ReadLine();
+                            conta = ProcuraConta(contexto, cartao);
+                            Console.WriteLine("Insira a senha conta:");
+                            senhaContaRecebida = Console.ReadLine();
+                            if (conta.Senha == senhaContaRecebida)
+                            {
+                               if (conta.Saldo == 0)
+                                {
+                                    contexto.Contas.Remove(conta);
+                                    contexto.SaveChanges();
+                                    Console.WriteLine($"A conta {conta.NumeroConta} foi excluida com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"A conta tem o saldo atual de: R${conta.Saldo}.Portanto não pode ser excluida");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Senha Incorreta");
+                            }
+                            break;
 
-                        case 4:
-                            Console.WriteLine("Insira o numero da conta:");
-                            numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
+                        case 3:
+                            Console.WriteLine("Insira o numero do cartao:");
+                            cartao = Console.ReadLine();
+                            conta = ProcuraConta(contexto, cartao);
                             Console.WriteLine("Insira a senha conta:");
                             senhaContaRecebida = Console.ReadLine();
                             if (conta.Senha == senhaContaRecebida)
                             {
                                 Console.WriteLine($"Saldo atual: R${conta.Saldo}");
+                                Console.WriteLine("Insira o periodo inicial no formato dd/mm/aaaa:");
+                                var inicial = ConverteData(Console.ReadLine());
+                                Console.WriteLine("Insira o periodo final no formato dd/mm/aaaa:");
+                                var final = ConverteData(Console.ReadLine());
+                                var lista = contexto.Comprovantes.Where(z => z.ContaId.Equals(conta.ContaId) && (z.Data.Date >= inicial && z.Data.Date <= final)).ToList();
+                                foreach (var comprovante in lista)
+                                {
+                                    Console.WriteLine($"Data: {comprovante.Data} ---- Valor: R$ {comprovante.Valor.ToString("N2")} ---- Cod.Validador: {comprovante.Validacao}");
+                                }
                             }
                             else
                             {
@@ -93,10 +113,10 @@ namespace CaixaEletronico.Aplicacao
                             break;
 
 
-                        case 5:
-                            Console.WriteLine("Insira o numero da conta:");
-                            numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
+                        case 4:
+                            Console.WriteLine("Insira o numero do cartao:");
+                            cartao = Console.ReadLine();
+                            conta = ProcuraConta(contexto, cartao);
                             Console.WriteLine("Insira a senha conta:");
                             senhaContaRecebida = Console.ReadLine();
                             if (conta.Senha == senhaContaRecebida)
@@ -120,10 +140,10 @@ namespace CaixaEletronico.Aplicacao
                             }
                             break;
 
-                        case 6:
+                        case 5:
                             Console.WriteLine("Insira o numero da conta:");
                             numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
+                            conta = ProcuraContaPeloNum(contexto, numeroContaRecebido);
                             Console.WriteLine("Digite o valor a depositado:");
                             conta.Saldo += Convert.ToInt64(Console.ReadLine());
                             Console.WriteLine("Deposito realizado com sucesso!");
@@ -131,10 +151,10 @@ namespace CaixaEletronico.Aplicacao
                             break;
                           
 
-                        case 7:
-                            Console.WriteLine("Insira o numero da conta:");
-                            numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
+                        case 6:
+                            Console.WriteLine("Insira o numero do cartao:");
+                            cartao = Console.ReadLine();
+                            conta = ProcuraConta(contexto, cartao);
                             Console.WriteLine("Insira a senha conta:");
                             senhaContaRecebida = Console.ReadLine();
                             if (conta.Senha == senhaContaRecebida)
@@ -145,7 +165,7 @@ namespace CaixaEletronico.Aplicacao
                                 {
                                     Console.WriteLine("Insira o numero da conta a ser transferida:");
                                     var numeroConta2Recebido = Console.ReadLine();
-                                    var conta2 = ProcuraConta(contexto, numeroConta2Recebido);
+                                    var conta2 = ProcuraContaPeloNum(contexto, numeroConta2Recebido);
                                     conta.Saldo -= transferir;
                                     conta2.Saldo += transferir;
                                     contexto.SaveChanges();
@@ -164,10 +184,10 @@ namespace CaixaEletronico.Aplicacao
                             }
                             break;
 
-                        case 8:
-                            Console.WriteLine("Insira o numero da conta:");
-                            numeroContaRecebido = Console.ReadLine();
-                            conta = ProcuraConta(contexto, numeroContaRecebido);
+                        case 7:
+                            Console.WriteLine("Insira o numero do cartao:");
+                            cartao = Console.ReadLine();
+                            conta = ProcuraConta(contexto, cartao);
                             Console.WriteLine("Insira a senha conta:");
                             senhaContaRecebida = Console.ReadLine();
                             if (conta.Senha == senhaContaRecebida)
@@ -177,8 +197,11 @@ namespace CaixaEletronico.Aplicacao
                                 if ((double)conta.Saldo >= boleto)
                                 {
                                     conta.Saldo -= boleto;
+                                    var comprovante = new Comprovante(conta.ContaId, boleto);
+                                    contexto.Comprovantes.Add(comprovante);
                                     contexto.SaveChanges();
                                     Console.WriteLine("boleto pago com sucesso!");
+                                    Console.WriteLine($"Codigo de Validação: {comprovante.Validacao}");
                                 }
                                 else
                                 {
@@ -210,21 +233,22 @@ namespace CaixaEletronico.Aplicacao
 
         }
 
-        public static Conta ProcuraConta(Contexto contexto, string pesquisaConta)
+        public static Conta ProcuraConta(Contexto contexto, string numCartao)
         {
-            var resultadoContas = contexto.Contas.Where(x => x.NumeroConta.Equals(pesquisaConta)).ToList();
-            return resultadoContas[0];
+            var cartao = contexto.Cartoes.FirstOrDefault(i => i.NumeroCartao.Equals(numCartao));
+            return contexto.Contas.FirstOrDefault(j => j.CartaoId.Equals(cartao.CartaoId));
+        }
+
+        public static Conta ProcuraContaPeloNum(Contexto contexto, string numConta)
+        {
+            return contexto.Contas.FirstOrDefault(j => j.NumeroConta.Equals(numConta));
         }
 
 
-        public static List<int> ConverteData(string data)
+        public static DateTime ConverteData(string data)
         {
-            var dataNascimentoSplit = data.Split('/');
-            var listaDataNascimento = new List<int>();
-            listaDataNascimento.Add(Convert.ToInt32(dataNascimentoSplit[2]));
-            listaDataNascimento.Add(Convert.ToInt32(dataNascimentoSplit[1]));
-            listaDataNascimento.Add(Convert.ToInt32(dataNascimentoSplit[0]));
-            return listaDataNascimento;
+            var dataSplit = data.Split('/');
+            return new DateTime(Convert.ToInt32(dataSplit[2]) , Convert.ToInt32(dataSplit[1]) , Convert.ToInt32(dataSplit[0]));
         }
 
     }

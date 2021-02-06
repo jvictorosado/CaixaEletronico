@@ -16,6 +16,6 @@ namespace CaixaEletronico.Dominio.Infraestrutura.Persistencia
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Cartao> Cartoes { get; set; }
         public DbSet<Conta> Contas { get; set; }
-
+        public DbSet<Comprovante> Comprovantes { get; set; }
     }
 }

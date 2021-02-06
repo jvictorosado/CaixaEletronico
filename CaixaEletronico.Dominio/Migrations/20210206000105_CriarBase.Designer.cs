@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaixaEletronico.Dominio.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210204155520_CriarBase")]
+    [Migration("20210206000105_CriarBase")]
     partial class CriarBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,30 @@ namespace CaixaEletronico.Dominio.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("CaixaEletronico.Dominio.Entidades.Comprovante", b =>
+                {
+                    b.Property<int>("ComprovanteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ContaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Validacao")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Valor")
+                        .HasColumnType("float");
+
+                    b.HasKey("ComprovanteId");
+
+                    b.ToTable("Comprovantes");
                 });
 
             modelBuilder.Entity("CaixaEletronico.Dominio.Entidades.Conta", b =>

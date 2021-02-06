@@ -42,6 +42,22 @@ namespace CaixaEletronico.Dominio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comprovantes",
+                columns: table => new
+                {
+                    ComprovanteId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Validacao = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Valor = table.Column<double>(type: "float", nullable: false),
+                    ContaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comprovantes", x => x.ComprovanteId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contas",
                 columns: table => new
                 {
@@ -83,6 +99,9 @@ namespace CaixaEletronico.Dominio.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Comprovantes");
+
             migrationBuilder.DropTable(
                 name: "Contas");
 
